@@ -1,0 +1,15 @@
+{
+  "name": "prueba2.0",
+  "version": "1.0.0",
+  "description": "Dependencias en el proyecto para enviar mensajes de whatsapp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel",
+  "license": "ISC",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.23.1-alpha.5"
+  }
+}
