@@ -24,12 +24,5 @@ async function buscarAlumnoPorNombre(nombreBuscado) {
         throw new Error(`Error al buscar alumno: ${error.message}`); // Manejar cualquier error que ocurra al obtener los datos
     }
 }
-buscarAlumnoPorNombre('Ana')
-    .then(alumno => {
-        console.log(alumno); // Imprimir los datos del alumno encontrado
-    })
-    .catch(error => {
-        console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
-    });
 
-module.exports = { obtenerAlumnos };
+module.exports = { buscarAlumnoPorNombre};
