@@ -11,36 +11,25 @@ async function obtenerAlumnos() {
     }
 }
 
-// Llamar a la función obtenerAlumnos() de manera asíncrona
-obtenerAlumnos()
-    .then(datos => {
-        const datosJSON = JSON.stringify(datos); // Convertir los datos a JSON
-        console.log(datosJSON); // Imprimir los datos en formato JSON
-    })
-    .catch(error => {
-        console.error(error.message); // Manejar cualquier error que ocurra al obtener los datos
-    });
 
-/*function obtenerAlumnoPorNombre(nombreBuscado) {
-    const datos = obtenerAlumnos(); // Llamada a la función que devuelve la estructura de datos
-    
-    // Buscar el alumno por su nombre
-    const alumnoEncontrado = datos.alumnos.find(alumno => alumno.nombre === nombreBuscado);
+async function buscarAlumnoPorNombre(nombreBuscado) {
+    try {
+        // Llamar a la función obtenerAlumnos() de manera asíncrona
+        const datos = await obtenerAlumnos();
 
-    if (alumnoEncontrado) {
-        // Formatear los datos del alumno como texto entendible
-        const textoAlumno = `
-            Nombre: ${alumnoEncontrado.nombre}
-            Apellido: ${alumnoEncontrado.apellido1}
-            Matrícula: ${alumnoEncontrado.matricula}
-        `;
-        return textoAlumno; // Devolver el texto formateado del alumno
-    } else {
-        return 'No se encontró ningún alumno con ese nombre.'; // Devolver un mensaje si no se encuentra ningún alumno con ese nombre
+        // Encontrar el alumno con el nombre buscado
+        const alumnoBuscado = datos.alumnos.find(alumno => alumno.nombre === nombreBuscado);
+        return alumnoBuscado; // Devolver el alumno encontrado
+    } catch (error) {
+        throw new Error(`Error al buscar alumno: ${error.message}`); // Manejar cualquier error que ocurra al obtener los datos
     }
 }
-const alumno = obtenerAlumnoPorNombre('Juan Diego');
-console.log(alumno);
-*/
+buscarAlumnoPorNombre('Ana')
+    .then(alumno => {
+        console.log(alumno); // Imprimir los datos del alumno encontrado
+    })
+    .catch(error => {
+        console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
+    });
 
 module.exports = { obtenerAlumnos };
