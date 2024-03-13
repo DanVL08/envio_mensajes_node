@@ -2,15 +2,19 @@
 const Qr = require('qrcode-terminal');
 
 //CONSTANTES PARA CONECTAR CON WHATSAPP WEB
-const { Client } = require('whatsapp-web.js');
-const client = new Client();
+const { Client, LocalAuth} = require('whatsapp-web.js');
+const client = new Client({ //cliente
+    /*   puppeteer: {
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        }, */
+      authStrategy: new LocalAuth()
+    });
+    
 
 
 //PRUEBA DE OBTENCIOMN DE DATOS
 // archivo_principal.js
 const { buscarAlumnoPorNombre } = require('./respuestasApi.js'); // Importar la función desde el archivo
-
-
 
 //GENERAR QR EN TERMINAL
 client.on('qr', (qr) => {
@@ -26,7 +30,7 @@ client.on('ready', async () => {
     const text = "Hey I'm ready!";
     const phoneRegistered = await client.getNumberId(number);
     await client.sendMessage(phoneRegistered._serialized, text);
- */
+    */
 });
 
 //Cuando el cliente recibe un mensaje, este se muestra en la consola
@@ -36,15 +40,19 @@ client.on('message', (message) => {
 
 //Si el mensaje es pagos envia un mensaje
 client.on('message', async (message) => {
+    var mensaje = 'nada';
     if (message.body === 'Ana') {
         buscarAlumnoPorNombre('Ana')
             .then(alumno => {
                 console.log(alumno); // Imprimir los datos del alumno encontrado
+                mensaje = 'Hola encontramos tus datos!';
+                console.log(alumno);
             })
             .catch(error => {
                 console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
+                mensaje = 'Ha ocurrido un error buscando tus datos!';
             });
-        await message.reply('Este es el dettalle de tus pagos /debes mucho dinero de las colegiaturas')
+        await message.reply(mensaje);
     }
 });
 
