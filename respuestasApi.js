@@ -25,4 +25,16 @@ async function buscarAlumnoPorNombre(nombreBuscado) {
     }
 }
 
-module.exports = { buscarAlumnoPorNombre};
+async function buscarAlumnoPorMatricula(matriculaABuscar) {
+    try {
+        // Llamar a la función obtenerAlumnos() de manera asíncrona
+        const datos = await obtenerAlumnos();
+
+        // Encontrar el alumno con el nombre buscado
+        const alumnoBuscado = datos.alumnos.find(alumno => alumno.matricula === matriculaABuscar);
+        return alumnoBuscado; // Devolver el alumno encontrado
+    } catch (error) {
+        throw new Error(`Error al buscar alumno: ${error.message}`); // Manejar cualquier error que ocurra al obtener los datos
+    }
+}
+module.exports = { buscarAlumnoPorMatricula};

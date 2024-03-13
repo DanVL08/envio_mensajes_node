@@ -14,7 +14,7 @@ const client = new Client({ //cliente
 
 //PRUEBA DE OBTENCIOMN DE DATOS
 // archivo_principal.js
-const { buscarAlumnoPorNombre } = require('./respuestasApi.js'); // Importar la función desde el archivo
+const { buscarAlumnoPorMatricula } = require('./respuestasApi.js'); // Importar la función desde el archivo
 
 //GENERAR QR EN TERMINAL
 client.on('qr', (qr) => {
@@ -38,10 +38,10 @@ client.on('message', (message) => {
     console.log(message.body);
 });
 
-//Si el mensaje es pagos envia un mensaje
+//Si el encuentra un alumno envia un mensaje con los datos
 client.on('message', async (message) => {
         try {
-            const alumno = await buscarAlumnoPorNombre(message.body);
+            const alumno = await buscarAlumnoPorMatricula(message.body);
             console.log(alumno); // Imprimir los datos del alumno encontrado
             
             // Formatear los datos del alumno en un mensaje legible
