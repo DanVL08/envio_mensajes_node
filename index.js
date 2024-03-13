@@ -40,21 +40,21 @@ client.on('message', (message) => {
 
 //Si el mensaje es pagos envia un mensaje
 client.on('message', async (message) => {
-    var mensaje = 'nada';
-    if (message.body === 'Ana') {
-        buscarAlumnoPorNombre('Ana')
-            .then(alumno => {
-                console.log(alumno); // Imprimir los datos del alumno encontrado
-                mensaje = 'Hola encontramos tus datos!';
-                console.log(alumno);
-            })
-            .catch(error => {
-                console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
-                mensaje = 'Ha ocurrido un error buscando tus datos!';
-            });
-        await message.reply(mensaje);
-    }
+        try {
+            const alumno = await buscarAlumnoPorNombre(message.body);
+            console.log(alumno); // Imprimir los datos del alumno encontrado
+            
+            // Formatear los datos del alumno en un mensaje legible
+            const respuesta = `Nombre: ${alumno.nombre}\nApellido: ${alumno.apellido1}\nMatrícula: ${alumno.matricula}`;
+
+            await message.reply(`Hola ${alumno.nombre}, aquí están tus datos:\n${respuesta}`);
+        } catch (error) {
+            console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
+            await message.reply('Ha ocurrido un error buscando tus datos. Por favor, inténtalo de nuevo más tarde.');
+        }
 });
+
+
 
 client.on('message', async (message) => {
     if (message.body === '!ping') {
