@@ -11,6 +11,15 @@ async function obtenerAlumnos() {
     }
 }
 
+// Función para obtener elementos desde la ruta que genera flask
+async function obtenerPagosDelAlumno(matricula) {
+    try {
+        const response = await axios.get('http://localhost:5000/pagos/' + encodeURIComponent(matricula));
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error al obtener elementos: ${error.message}`);
+    }
+}
 
 async function buscarAlumnoPorNombre(nombreBuscado) {
     try {
@@ -37,4 +46,4 @@ async function buscarAlumnoPorMatricula(matriculaABuscar) {
         throw new Error(`Error al buscar alumno: ${error.message}`); // Manejar cualquier error que ocurra al obtener los datos
     }
 }
-module.exports = { buscarAlumnoPorMatricula};
+module.exports = { obtenerPagosDelAlumno };

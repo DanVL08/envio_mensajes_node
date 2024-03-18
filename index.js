@@ -14,7 +14,7 @@ const client = new Client({ //cliente
 
 //PRUEBA DE OBTENCIOMN DE DATOS
 // archivo_principal.js
-const { buscarAlumnoPorMatricula } = require('./respuestasApi.js'); // Importar la función desde el archivo
+const { obtenerPagosDelAlumno } = require('./respuestasApi.js'); // Importar la función desde el archivo
 
 //GENERAR QR EN TERMINAL
 client.on('qr', (qr) => {
@@ -39,20 +39,34 @@ client.on('message', (message) => {
 });
 
 //Si el encuentra un alumno envia un mensaje con los datos
-client.on('message', async (message) => {
-        try {
-            const alumno = await buscarAlumnoPorMatricula(message.body);
-            console.log(alumno); // Imprimir los datos del alumno encontrado
-            
-            // Formatear los datos del alumno en un mensaje legible
-            const respuesta = `Nombre: ${alumno.nombre}\nApellido: ${alumno.apellido1}\nMatrícula: ${alumno.matricula}`;
+// Archivo principal (por ejemplo, index.js)
 
-            await message.reply(`Hola ${alumno.nombre}, aquí están tus datos:\n${respuesta}`);
-        } catch (error) {
-            console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
-            await message.reply('Ha ocurrido un error buscando tus datos. Por favor, inténtalo de nuevo más tarde.');
-        }
+client.on('message', async (message) => {
+    try {
+        const pagos_alumno = await obtenerPagosDelAlumno(message.body);
+        console.log(pagos_alumno); // Imprimir los datos del alumno encontrado
+        
+        let texto = `Datos del alumno:
+        Apellido: ${pagos_alumno.apellido1}
+        Nombre: ${pagos_alumno.nombre}
+        Pagos realizados:`;
+
+        
+        pagos_alumno.pagos.forEach((pago, index) => {
+            texto += `
+            - Pago ${index + 1}:
+                Estado: ${pago.estado_pago}
+                Fecha: ${pago.fecha_pago}
+                Monto: ${pago.monto}`;
+        });
+
+        await message.reply(`Hola ${pagos_alumno.nombre}, aquí están tus datos:\n${texto}`);
+    } catch (error) {
+        console.error(error.message); // Manejar cualquier error que ocurra al buscar el alumno
+        await message.reply('Ha ocurrido un error buscando tus datos. Por favor, inténtalo de nuevo más tarde.');
+    }
 });
+
 
 
 
