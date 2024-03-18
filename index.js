@@ -44,14 +44,14 @@ client.on('message', (message) => {
 client.on('message', async (message) => {
     try {
         const pagos_alumno = await obtenerPagosDelAlumno(message.body);
-        console.log(pagos_alumno); // Imprimir los datos del alumno encontrado
         
+        //TEXTO FINAL A IMPRIMIR
         let texto = `Datos del alumno:
         Apellido: ${pagos_alumno.apellido1}
         Nombre: ${pagos_alumno.nombre}
         Pagos realizados:`;
 
-        
+        //Concatena cada uno de los datos del pago
         pagos_alumno.pagos.forEach((pago, index) => {
             texto += `
             - Pago ${index + 1}:
