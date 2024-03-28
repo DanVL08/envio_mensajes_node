@@ -11,4 +11,25 @@ async function obtenerPagosDelAlumno(matricula) {
     }
 }
 
-module.exports = { obtenerPagosDelAlumno };
+// Función para obtener las matriculas con pago en un JSON
+async function obtenerMatriculasConPagoEsteMes() {
+    try {
+        const response = await axios.get('http://localhost:5000/alumnos_con_pago_mes_actual');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error al obtener elementos: ${error.message}`);
+    }
+}
+
+// Función para obtener las nombre,apeellidos y matricula de todso los alumnos con pago en un JSON
+async function obtenerDatosDeAlumnos() {
+    try {
+        const response = await axios.get('http://localhost:5000/alumnos');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error al obtener elementos: ${error.message}`);
+    }
+}
+
+
+module.exports = { obtenerPagosDelAlumno, obtenerMatriculasConPagoEsteMes, obtenerDatosDeAlumnos };
