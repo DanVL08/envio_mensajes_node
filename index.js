@@ -4,10 +4,17 @@ const Qr = require('qrcode-terminal');
 //CONSTANTES PARA CONECTAR CON WHATSAPP WEB
 const { Client, LocalAuth} = require('whatsapp-web.js');
 const client = new Client({ //cliente
+    authStrategy: new LocalAuth(),
     /*   puppeteer: {
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            headless: true,
+    },
         }, */
-      authStrategy: new LocalAuth()
+        webVersion: '2.2409.2',
+        webVersionCache: {
+            type: 'remote',
+            remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2409.2.html'
+        }
     });
     
 
