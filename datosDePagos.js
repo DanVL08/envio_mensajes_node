@@ -15,22 +15,25 @@ async function obtenerArrayDeMatriculasConPagoEsteMes() {
     }
 }
 
-async function obtenerArrayDeMatriculasSinPagoEsteMes(){
+async function obtenerArrayDeAlumnosSinPagoEsteMes(){
     try {
         // Obtener los datos de los alumnos
         const datosDeAlumnos = await obtenerDatosDeAlumnos();
         const ArrayDeMatriculasConPago = await obtenerArrayDeMatriculasConPagoEsteMes();
-        let arrayDeMatriculasSinPagoEsteMes = [];
+        let arrayDeAlumnosSinPagoEsteMes = [];
+
         // Buscar cada matricula dentro de las  matrículas con pago
         datosDeAlumnos.alumnos.forEach(alumno => {
             if (!(ArrayDeMatriculasConPago.includes(alumno.matricula))) {
-                arrayDeMatriculasSinPagoEsteMes.push(alumno.matricula);
+                arrayDeAlumnosSinPagoEsteMes.push(alumno);
             }
         });
-        return arrayDeMatriculasSinPagoEsteMes;
+        console.log(arrayDeAlumnosSinPagoEsteMes)
+        return arrayDeAlumnosSinPagoEsteMes;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-module.exports = {obtenerArrayDeMatriculasSinPagoEsteMes}
+obtenerArrayDeAlumnosSinPagoEsteMes()
+module.exports = {obtenerArrayDeAlumnosSinPagoEsteMes}
