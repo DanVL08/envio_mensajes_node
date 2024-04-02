@@ -31,7 +31,7 @@ client.on('qr', (qr) => {
 //CUANDO EL CLIENTE ESTA LISTO
 client.on('ready', async () => {
     console.log('Client is ready!');
-
+    enviarMensaje("524471389071", "Holaaaaaaaaaaa")
     //LO COMENTO PARA DESCOMENTAR DESPUES Y NO MOLESTAR
     /* const number = "524471389071"; 
     const text = "Hey I'm ready!";
@@ -75,11 +75,17 @@ client.on('message', async (message) => {
 });
 
 
-
-
-client.on('message', async (message) => {
-    if (message.body === '!ping') {
-        await client.sendMessage(message.form, 'pong');
-    }
-});
 client.initialize();
+
+//UTILIZA EL CLIENTE PARA ENVIAR UN MENSAJE DE ACUERDO A LOS PARAMETROS
+async function enviarMensaje(numeroDeTelefono, textoDelMensaje) {
+    const numero = numeroDeTelefono; 
+    const texto = textoDelMensaje;
+
+    try {
+        const phoneRegistered = await client.getNumberId(numero);
+        await client.sendMessage(phoneRegistered._serialized, texto);
+    } catch (error) {
+        console.error("Error al enviar el mensaje:", error);
+    }
+}
