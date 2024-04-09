@@ -22,7 +22,7 @@ const client = new Client({ //cliente
 //PRUEBA DE OBTENCIOMN DE DATOS
 // archivo_principal.js
 const { obtenerPagosDelAlumno } = require('./respuestasApi.js'); // Importar la función desde el archivo
-
+const {obtenerArrayDeAlumnosSinPagoEsteMes} = require('./datosDePagos.js')
 //GENERAR QR EN TERMINAL
 client.on('qr', (qr) => {
     Qr.generate(qr, { small: true });
@@ -31,7 +31,6 @@ client.on('qr', (qr) => {
 //CUANDO EL CLIENTE ESTA LISTO
 client.on('ready', async () => {
     console.log('Client is ready!');
-    enviarMensaje("524471389071", "Holaaaaaaaaaaa")
     //LO COMENTO PARA DESCOMENTAR DESPUES Y NO MOLESTAR
     /* const number = "524471389071"; 
     const text = "Hey I'm ready!";
@@ -89,3 +88,57 @@ async function enviarMensaje(numeroDeTelefono, textoDelMensaje) {
         console.error("Error al enviar el mensaje:", error);
     }
 }
+async function enviarMensajeALosAlumnosSinPago(){
+    // Iterando sobre el array e imprimiendo los nombres de todas las personas
+    const alumnosSinPago = await obtenerArrayDeAlumnosSinPagoEsteMes();
+    
+    for (const alumno of alumnosSinPago) {
+        console.log(alumno.nombre);
+        const mensaje = "El alumno " + alumno.nombre + " no ha realizado su pago este mes";
+
+        // Crear una promesa que se resolverá después de 3 minutos
+        await new Promise(resolve => {
+            setTimeout(async () => {
+                await enviarMensaje('524471389071', mensaje);
+                resolve(); // Resuelve la promesa después de enviar el mensaje
+            }, 180000); // 180000 milisegundos = 3 minutos
+        });
+    }
+}
+
+
+// Función asíncrona para activar en un día y hora específicos
+async function activarEnDiaYHoraEspecificos() {
+    // Definir la fecha y hora específicas en las que quieres activar la función
+    const fechaEspecifica = new Date(2024, 3, 3, 19, 49, 0); 
+
+    while (true) {
+        // Obtener la fecha y hora actual
+        const ahora = new Date();
+        
+        // Verificar si la fecha y hora actuales coinciden con la fecha y hora específicas
+        if (ahora >= fechaEspecifica) {
+            console.log("La función se activó en la fecha y hora específicas.");
+            await enviarMensajeALosAlumnosSinPago();
+            break; // Salir del bucle una vez que se haya activado la función
+        } else {
+            // Calcular el tiempo que falta hasta la fecha y hora específicas
+            const tiempoRestante = fechaEspecifica.getTime() - ahora.getTime();
+            console.log(`Esperando hasta la fecha y hora específicas (${tiempoRestante} ms restantes)...`);
+            
+            // Esperar un tiempo antes de volver a verificar
+            await esperar(1000); // Esperar 1 segundo antes de volver a verificar
+        }
+    }
+}
+
+// Función para esperar un tiempo determinado
+function esperar(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Llamar a la función para activar en un día y hora específicos
+activarEnDiaYHoraEspecificos()
+    .catch(error => console.error("Error:", error));
+
+

@@ -28,12 +28,11 @@ async function obtenerArrayDeAlumnosSinPagoEsteMes(){
                 arrayDeAlumnosSinPagoEsteMes.push(alumno);
             }
         });
-        console.log(arrayDeAlumnosSinPagoEsteMes)
+        //console.log(arrayDeAlumnosSinPagoEsteMes);
         return arrayDeAlumnosSinPagoEsteMes;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-obtenerArrayDeAlumnosSinPagoEsteMes()
 module.exports = {obtenerArrayDeAlumnosSinPagoEsteMes}
