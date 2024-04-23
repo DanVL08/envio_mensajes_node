@@ -155,7 +155,7 @@ function esperar(ms) {
 
 // Llamar a la función para activar en un día y hora específicos
 const fechaEspecifica = new Date(2024, 3, 19, 21, 42, 0);
-activarEnDiaYHoraEspecificos(fechaEspecifica)
+/* activarEnDiaYHoraEspecificos(fechaEspecifica)
     .catch(error => console.error("Error:", error));
-
+ */
 
