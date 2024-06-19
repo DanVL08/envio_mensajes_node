@@ -21,7 +21,7 @@ async function obtenerMatriculasConPagoEsteMes() {
     }
 }
 
-// Función para obtener las nombre,apeellidos y matricula de todos los alumnos con pago en un JSON
+// Función para obtener las nombre,apellidos y matricula de todos los alumnos con pago en un JSON
 async function obtenerDatosDeAlumnos() {
     try {
         const response = await axios.get('http://localhost:5000/alumnos');

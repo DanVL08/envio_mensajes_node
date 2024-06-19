@@ -10,11 +10,11 @@ const client = new Client({ //cliente
             headless: true,
     },
         }, */
-    webVersion: '2.2409.2',
-    webVersionCache: {
+    /* webVersion: '2.2409.2', */
+    /* webVersionCache: {
         type: 'remote',
         remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2409.2.html'
-    }
+    } */
 });
 
 
@@ -91,10 +91,12 @@ async function enviarMensaje(numeroDeTelefono, textoDelMensaje) {
 async function enviarMensajeALosAlumnosSinPago() {
     // Iterando sobre el array e imprimiendo los nombres de todas las personas
     const alumnosSinPago = await obtenerArrayDeAlumnosSinPagoEsteMes();
-
+    
     for (const alumno of alumnosSinPago) {
         console.log(alumno.nombre);
-        const mensaje = "El alumno " + alumno.nombre + " no ha realizado su pago este mes";
+        const mensaje = "Hola " + alumno.nombre + ", esperando que se encuentre muy bien, le saluda la Preparatoria Federal por Coperación,\n"+
+        " y le invita a realizar el pago corresponidente de este mes. Si usted , ya realizó su pago , por favor infórmelo a nuestras oficinas." +
+        " ¡Saludos!";
 
         // Crear una promesa que se resolverá después de 3 minutos y luego envia un numero al telefono del alumno
         await new Promise(resolve => {
@@ -155,7 +157,7 @@ function esperar(ms) {
 
 // Llamar a la función para activar en un día y hora específicos
 const fechaEspecifica = new Date(2024, 3, 19, 21, 42, 0);
-/* activarEnDiaYHoraEspecificos(fechaEspecifica)
+activarEnDiaYHoraEspecificos(fechaEspecifica)
     .catch(error => console.error("Error:", error));
- */
+
 
