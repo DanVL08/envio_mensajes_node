@@ -1,14 +1,15 @@
 // codigo_utilidades.js
 const axios = require('axios');
+const logger = require('./logger');
 
 // Función para obtener elementos desde la ruta que genera flask
 async function obtenerPagosDelAlumno(matricula) {
     try {
         const url = `https://api-flask-mensajes-wwjs-1.onrender.com/pagos/${encodeURIComponent(matricula)}`;
         const response = await axios.get(url);
-        console.log(response)
         return response.data;
     } catch (error) {
+        logger.error(error)
         throw new Error(`Error al obtener elementos: ${error.message}`);
     }
 }

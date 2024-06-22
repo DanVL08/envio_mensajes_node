@@ -1,4 +1,5 @@
 const { obtenerMatriculasConPagoEsteMes, obtenerDatosDeAlumnos } = require('./respuestasApi.js');
+const logger = require('./logger.js')
 // Llamada a la función
 async function obtenerArrayDeMatriculasConPagoEsteMes() {
     try {
@@ -10,7 +11,7 @@ async function obtenerArrayDeMatriculasConPagoEsteMes() {
         // Ahora puedes trabajar con el arrayDeMatriculas
         return arrayDeMatriculas;
     } catch (error) {
-        console.error(error.message);
+        logger.error(error.message);
     }
 }
 
@@ -30,11 +31,9 @@ async function obtenerArrayDeAlumnosSinPagoEsteMes(){
             
             }
         });
-                //console.log(arrayDeAlumnosSinPagoEsteMes);
-
         return arrayDeAlumnosSinPagoEsteMes;
     } catch (error) {
-        console.error(error.message);
+        logger.error(error.message);
     }
 }
 
