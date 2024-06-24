@@ -109,9 +109,6 @@ app.get('/health', (req, res) => {
     res.send('OK');
 });
 
-app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${port}`);
-});
 
 // Simula una petición cada minuto para mantener la instancia activa
 const axios = require('axios');
