@@ -7,7 +7,7 @@ const { obtenerArrayDeAlumnosSinPagoEsteMes } = require('./datosDePagos.js');
 const logger = require('./logger.js');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 1001;
 
 // Configura el cliente de WhatsApp Web
 const client = new Client({
@@ -117,7 +117,7 @@ app.listen(port, () => {
 const axios = require('axios');
 
 setInterval(() => {
-    axios.get(`http://localhost:${port}/health`)
+    axios.get(`https://envio-mensajes-node.onrender.com/:${port}/health`)
         .then(response => console.log('Health check:', response.data))
         .catch(error => console.error('Error en health check:', error));
 }, 60000); // 60,000 ms = 1 minuto
