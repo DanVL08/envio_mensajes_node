@@ -104,6 +104,23 @@ async function avanzarUnDia(fecha) {
 function esperar(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+//Endpoint de salud
+app.get('/health', (req, res) => {
+    res.send('OK');
+});
+
+app.listen(port, () => {
+    console.log(`Servidor escuchando en el puerto ${port}`);
+});
+
+// Simula una petición cada minuto para mantener la instancia activa
+const axios = require('axios');
+
+setInterval(() => {
+    axios.get(`http://localhost:${port}/health`)
+        .then(response => console.log('Health check:', response.data))
+        .catch(error => console.error('Error en health check:', error));
+}, 60000); // 60,000 ms = 1 minuto
 
 // Inicia la activación en una fecha específica
 const fechaInicial = new Date(2024, 5, 24, 10, 1, 0);
