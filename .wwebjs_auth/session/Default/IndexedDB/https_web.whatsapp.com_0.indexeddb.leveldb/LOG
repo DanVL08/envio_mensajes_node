@@ -1,0 +1,9 @@
+2024/06/24-10:01:24.667 15c0 Reusing MANIFEST C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/06/24-10:01:24.667 15c0 Recovering log #172
+2024/06/24-10:01:24.684 15c0 Reusing old log C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000172.log 
+2024/06/24-10:01:24.685 15c0 Delete type=2 #171
+2024/06/24-10:01:24.685 15c0 Delete type=2 #173
+2024/06/24-10:01:26.711 810 Level-0 table #177: started
+2024/06/24-10:01:26.718 810 Level-0 table #177: 115217 bytes OK
+2024/06/24-10:01:26.720 810 Delete type=0 #172
+2024/06/24-10:01:26.754 878 Manual compaction at level-0 from '\x00F\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00G\x00\x00\x00' @ 0 : 0; will stop at (end)
