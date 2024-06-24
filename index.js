@@ -113,7 +113,7 @@ async function enviarMensajeALosAlumnosSinPago() {
 }
 
 // Función principal para activar en un día y hora específicos
-async function activarEnDiaYHoraEspecificos(fechaInicial) {
+/* async function activarEnDiaYHoraEspecificos(fechaInicial) {
     let fechaProximaActivacion = fechaInicial;
 
     while (true) {
@@ -132,11 +132,33 @@ async function activarEnDiaYHoraEspecificos(fechaInicial) {
         await esperar(Math.min(tiempoRestante, MILISEGUNDOS_EN_UN_MINUTO)); // Esperar hasta la próxima fecha o 1 minuto, lo que sea menor
     }
 }
-
+ */
+async function activarEnDiaYHoraEspecificos(fecha) {
+    while (true) {
+        const ahora = new Date();
+        if (ahora >= fecha){
+            logger.info("La funcion se activo en la fecha y hora específicas")
+            //enviar mensaje a los alumnos
+            await enviarMensajeALosAlumnosSinPago();
+            //Hacer avanzar la fecha un dia
+            await avanzarUnDia(fecha);
+            //Esperar otro dia antes de volver a comprobar
+            await esperar(MILISEGUNDOS_EN_UN_DIA);
+        } else {
+            const tiempoRestante = fecha.getTime() - ahora.getTime();
+            logger.info("Esperando hasta la proxima fecha o un minuto, lo que sea menor")
+            await esperar(Math.min(tiempoRestante, 60 * 1000))
+        }
+    }
+}
 // Función para avanzar la fecha al próximo mes
-async function avanzarUnMes(fecha) {
+/* async function avanzarUnMes(fecha) {
     fecha.setMonth(fecha.getMonth() + 1);
     logger.info('Fecha actualizada al próximo mes: ' + fecha);
+} */
+async function avanzarUnDia(fecha){
+    fecha.setDate(fecha.getDate() + 1)
+    logger.info("Fecha actualizada al proximo dia " +  fecha);
 }
 
 // Función auxiliar para esperar
@@ -145,6 +167,6 @@ function esperar(ms) {
 }
 
 // Inicializar el proceso de activación
-const fechaInicial = new Date(2024, 5, 19, 21, 42, 0); // Ejemplo: 19 de junio de 2024 a las 21:42:00
+const fechaInicial = new Date(2024, 5, 24, 10, 1, 0); // Ejemplo: 19 de junio de 2024 a las 21:42:00
 activarEnDiaYHoraEspecificos(fechaInicial)
     .catch(error => logger.error("Error:" + error));
