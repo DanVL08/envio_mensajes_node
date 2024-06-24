@@ -1,3 +1,2 @@
-2024/06/24-09:54:03.368 1e6c Reusing MANIFEST C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\shared_proto_db/MANIFEST-000001
-2024/06/24-09:54:03.374 1e6c Recovering log #3
-2024/06/24-09:54:03.375 1e6c Reusing old log C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\shared_proto_db/000003.log 
+2024/06/24-13:09:43.351 31e8 Creating DB C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\shared_proto_db since it was missing.
+2024/06/24-13:09:43.359 31e8 Reusing MANIFEST C:\Users\LENOVO\Desktop\ENVIO_MENSAJES_NODE\.wwebjs_auth\session\Default\shared_proto_db/MANIFEST-000001
