@@ -7,7 +7,10 @@ const { obtenerArrayDeAlumnosSinPagoEsteMes } = require('./datosDePagos.js');
 const logger = require('./logger.js');
 
 const app = express();
-const port = process.env.PORT || 1001;
+const port = process.env.PORT || 3000;
+
+//VARIABLES PARA LA ESCRITURA DEL ARCHIVO JSON
+const fs = require('fs');
 
 // Configura el cliente de WhatsApp Web
 const client = new Client({
@@ -81,13 +84,15 @@ async function enviarMensajeALosAlumnosSinPago() {
 }
 
 // Función para activar en una fecha específica
-async function activarEnDiaYHoraEspecificos(fecha) {
+async function activarEnDiaYHoraEspecificos() {
+    let fecha = leerFechaDeArchivo();
     while (true) {
         const ahora = new Date();
         if (ahora >= fecha) {
             logger.info("La función se activó en la fecha y hora específicas.");
             await enviarMensajeALosAlumnosSinPago();
-            await avanzarUnDia(fecha);
+            await avanzarUnMes(fecha);
+            escribirFechaEnArchivo(fecha);
             await esperar(24 * 60 * 60 * 1000); // Espera un día
         } else {
             const tiempoRestante = fecha.getTime() - ahora.getTime();
@@ -96,29 +101,47 @@ async function activarEnDiaYHoraEspecificos(fecha) {
     }
 }
 
-async function avanzarUnDia(fecha) {
-    fecha.setDate(fecha.getDate() + 1);
-    logger.info("Fecha actualizada al próximo día: " + fecha);
+function leerFechaDeArchivo() {
+    try {
+        const data = fs.readFileSync('fecha.json', 'utf8');
+        const fecha = JSON.parse(data).fecha_ultima_activacion;
+        return new Date(fecha);
+    } catch (error) {
+        logger.error("No se pudo leer la fecha del archivo:", error);
+        return new Date(); // Si hay error, devuelve la fecha actual.
+    }
+}
+
+function escribirFechaEnArchivo(fecha) {
+    try {
+        const data = { fecha_ultima_activacion: fecha.toISOString() };
+        fs.writeFileSync('fecha.json', JSON.stringify(data), 'utf8');
+        logger.info("Fecha guardada en archivo: " + fecha);
+    } catch (error) {
+        logger.error("No se pudo escribir la fecha en el archivo:", error);
+    }
+}
+
+async function avanzarUnMes(fecha) {
+    // Avanza un mes
+    const nuevoMes = fecha.getMonth() + 1;
+    fecha.setMonth(nuevoMes);
+
+    // Verifica si el avance de mes causó un cambio de año
+    if (fecha.getMonth() !== nuevoMes % 12) {
+        fecha.setMonth(nuevoMes % 12);
+        fecha.setFullYear(fecha.getFullYear() + 1);
+    }
+
+    // Establece el día al 6
+    fecha.setDate(6);
+    
+    logger.info('Fecha actualizada al día 6 del próximo mes: ' + fecha);
 }
 
 function esperar(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-//Endpoint de salud
-app.get('/health', (req, res) => {
-    res.send('OK');
-});
 
-
-// Simula una petición cada minuto para mantener la instancia activa
-const axios = require('axios');
-
-setInterval(() => {
-    axios.get(`https://envio-mensajes-node.onrender.com/:${port}/health`)
-        .then(response => console.log('Health check:', response.data))
-        .catch(error => console.error('Error en health check:', error));
-}, 60000); // 60,000 ms = 1 minuto
-
-// Inicia la activación en una fecha específica
-const fechaInicial = new Date(2024, 5, 24, 10, 1, 0);
-activarEnDiaYHoraEspecificos(fechaInicial).catch(error => logger.error("Error:" + error));
+// Inicializa la activación en la fecha guardada en el archivo
+activarEnDiaYHoraEspecificos().catch(error => logger.error("Error:" + error));
